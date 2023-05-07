@@ -49,6 +49,16 @@ app.get("/info", (req, res) => {
       ${dayOfWeek} ${month} ${year} ${time} GMT ${timeZoneOffset} (${timeZoneName})`
   );
 });
+app.get("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const person = persons.find((persons) => persons.id === id);
+
+  if (person) {
+    res.json(person);
+  } else {
+    res.status(404).json({ error: `person with ${id} not found` });
+  }
+});
 
 app.listen(port, () => {
   console.log(`express sever is running at ${port}`);
