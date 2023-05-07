@@ -3,6 +3,7 @@
 const express = require("express");
 const app = express();
 const port = 3001;
+app.use(express.json());
 
 let persons = [
   {
@@ -65,6 +66,46 @@ app.delete("/api/persons/:id", (req, res) => {
   persons = persons.filter((person) => person.id !== id);
   res.status(204).end();
 });
+app.post("/api/persons", (req, res) => {
+  const body = req.body;
+
+  if (!body.name || !body.number) {
+    return res.status(400).json({
+      error: "name or number missing",
+    });
+  }
+
+  const nameExists = persons.some((p) => p.name === body.name);
+
+  if (nameExists) {
+    return res.status(400).json({
+      error: "name already exists.name must be unique",
+    });
+  }
+
+  const numberExists = persons.some((p) => p.number === body.number);
+
+  if (numberExists) {
+    return res.status(400).json({
+      error: "number already exists.number must be unique",
+    });
+  }
+
+  const person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number,
+  };
+
+  persons.push(person);
+
+  res.json(person);
+});
+
+const generateId = () => {
+  const maxId = persons.length > 0 ? Math.max(...persons.map((p) => p.id)) : 0;
+  return maxId + 1;
+};
 
 app.listen(port, () => {
   console.log(`express sever is running at ${port}`);
