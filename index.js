@@ -2,8 +2,14 @@
 
 const express = require("express");
 const app = express();
-const port = 3001;
+const port = 3004;
 app.use(express.json());
+const morgan = require("morgan");
+
+app.use((req, res, next) => {
+  morgan("tiny")(req, res, () => {});
+  next();
+});
 
 let persons = [
   {
