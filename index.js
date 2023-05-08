@@ -2,12 +2,24 @@
 
 const express = require("express");
 const app = express();
-const port = 3004;
+const port = 3030;
 app.use(express.json());
 const morgan = require("morgan");
 
+morgan.token("response-body", (req, res) => {
+  if (req.method === "POST") {
+    return JSON.stringify(req.body);
+  }
+  return "";
+});
+
 app.use((req, res, next) => {
   morgan("tiny")(req, res, () => {});
+  next();
+});
+
+app.use((req, res, next) => {
+  morgan(":response-body")(req, res, () => {});
   next();
 });
 
