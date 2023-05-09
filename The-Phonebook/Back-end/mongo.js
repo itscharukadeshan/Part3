@@ -20,6 +20,7 @@ const personSchema = new mongoose.Schema({
 });
 
 const persons = mongoose.model("persons", personSchema);
+const add = "./tem.text";
 
 if (process.argv.length >= 4) {
   const name = process.argv[3];
