@@ -2,8 +2,10 @@
 
 const express = require("express");
 const app = express();
-const port = 3030;
+const PORT = process.env.PORT || 3001;
+
 app.use(express.json());
+
 const morgan = require("morgan");
 
 morgan.token("response-body", (req, res) => {
@@ -125,6 +127,6 @@ const generateId = () => {
   return maxId + 1;
 };
 
-app.listen(port, () => {
-  console.log(`express sever is running at ${port}`);
+app.listen(PORT, () => {
+  console.log(`express sever is running at ${PORT}`);
 });
