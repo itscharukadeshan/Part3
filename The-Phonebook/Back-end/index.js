@@ -18,6 +18,8 @@ morgan.token("postdata", (request) => {
     return JSON.stringify(request.body);
   }
 });
+app.connect(process.env.MONGODB_URI);
+
 app.use(
   morgan(
     ":method :url :status :res[content-length] - :response-time ms :postdata"
