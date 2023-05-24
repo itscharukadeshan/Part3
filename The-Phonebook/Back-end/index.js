@@ -93,8 +93,8 @@ app.put("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.use((error, req, res, next) => {
-  console.error("An error occurred:", error);
+app.use((err, req, res, next) => {
+  console.error("An error occurred:", err);
   res.status(500).json({ error: "Internal Server Error" });
 });
 
