@@ -12,18 +12,20 @@ const PersonForm = ({
   return (
     <form onSubmit={addPerson}>
       <div className=' flex flex-col gap-2'>
-        <label>Name: </label>
+        <label>Name </label>
         <input
-          className=' pl-2 border-gray-500 border-2 rounded-sm w-1/4 '
+          className=' pl-2 py-1 border-gray-500 border-2 rounded-sm w-1/4 '
           value={newName}
+          placeholder='Enter a name'
           onChange={handleNameChange}
         />
       </div>
       <div className=' flex flex-col gap-2'>
-        <label className='mt-2'> Number:</label>
+        <label className='mt-2'> Number</label>
         <input
-          className=' pb-2  border-gray-500 border-2 rounded-sm w-1/4 '
+          className=' pl-2 py-1 border-gray-500 border-2 rounded-sm w-1/4 '
           value={newNumber}
+          placeholder='e.g. 123-4567890'
           onChange={handleNumberChange}
         />
       </div>

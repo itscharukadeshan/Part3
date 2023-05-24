@@ -4,6 +4,7 @@ import Filter from "./components/Filter";
 import personsService from "./service/persons";
 import PersonForm from "./components/PersonForm";
 import Notification from "./components/Notification";
+import ErrNotification from "./components/ErrNotification";
 import "./index.css";
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [message, setMessage] = useState("");
+  const [errMessage, setErrMassage] = useState("");
 
   useEffect(() => {
     personsService
@@ -52,6 +54,7 @@ const App = () => {
   const handleNotification = () => {
     setTimeout(() => {
       setMessage("");
+      setErrMassage("");
     }, 3000);
   };
 
@@ -89,6 +92,10 @@ const App = () => {
       })
       .catch((error) => {
         console.log("Error creating person entry:", error);
+        handleReset();
+        setErrMassage("Check the number and name are correct ");
+        ErrNotification(errMessage);
+        handleNotification();
       });
   };
 
@@ -113,7 +120,7 @@ const App = () => {
         addPerson={addPerson}
       />
 
-      <h3 className='text-3xl py-4 mt-4 '>Numbers</h3>
+      <h3 className='text-3xl py-4 mt-4 '>Numbers </h3>
       <ul>
         {filteredPersons.map((person) => (
           <div key={person.id} className='flex flex-row  gap-2 '>
