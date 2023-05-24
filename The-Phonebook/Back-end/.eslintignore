@@ -1,3 +1,4 @@
 dist
+.dist
 .eslintrc.js
 mongo.js
