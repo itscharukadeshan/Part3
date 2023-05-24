@@ -63,18 +63,6 @@ app.delete("/api/persons/:id", (request, response, next) => {
 });
 
 app.post("/api/persons", async (request, response, next) => {
-  if (!request.body.name) {
-    return response.status(400).json({ error: "name missing" });
-  }
-  if (!request.body.number) {
-    return response.status(400).json({ error: "number missing" });
-  }
-
-  let exists = await Person.exists({ name: request.body.name });
-  if (exists) {
-    return response.status(409).json({ error: "name must be unique" });
-  }
-
   const person = new Person({
     name: request.body.name,
     number: request.body.number,
@@ -105,24 +93,10 @@ app.put("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-function unknownEndpoint(request, response) {
-  response.status(404).send({ error: "unknown endpoint" });
-}
-
-app.use(unknownEndpoint);
-
-function errorHandler(error, request, response, next) {
-  console.error(error.message);
-
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "Malformed id" });
-  } else if (error.name === "ValidationError") {
-    return response.status(400).send({ error: error.message });
-  }
-  next(error);
-}
-
-app.use(errorHandler);
+app.use((error, req, res, next) => {
+  console.error("An error occurred:", error);
+  res.status(500).json({ error: "Internal Server Error" });
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT);
