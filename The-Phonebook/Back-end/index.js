@@ -4,20 +4,18 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const mongoose = require("mongoose");
 
 const Person = require("./models/person");
 
 const app = express();
 app.use(cors());
-app.use(express.static("build"));
+app.use(express.static("dist"));
 app.use(express.json());
 
 morgan.token("postdata", (request) => {
-  if (request.method === "POST") {
-    return JSON.stringify(request.body);
-  }
+  return JSON.stringify(request.body);
 });
+
 app.connect(process.env.MONGODB_URI);
 
 app.use(
@@ -31,7 +29,7 @@ app.get("/info", (request, response, next) => {
     .then((count) => {
       const timestamp = new Date();
       response.send(
-        `<p>Phonebook has info for ${count} people</p>
+        `<p>Phone book has info for ${count} people</p>
       <p>${timestamp}</p>`
       );
     })
