@@ -24,11 +24,11 @@ const personSchema = new mongoose.Schema({
     required: true,
   },
   number: {
-    type: [String],
+    type: String,
     validate: {
-      validator: function (numbers) {
+      validator: function (value) {
         const regex = /^\d{3}-\d{7}$/;
-        return numbers.every((number) => regex.test(number));
+        return regex.test(value);
       },
       message: "Invalid phone number",
     },

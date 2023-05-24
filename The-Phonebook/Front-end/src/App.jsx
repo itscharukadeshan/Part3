@@ -55,7 +55,7 @@ const App = () => {
     setTimeout(() => {
       setMessage("");
       setErrMessage("");
-    }, 4000);
+    }, 3000);
   };
 
   const handleReset = () => {
@@ -96,29 +96,31 @@ const App = () => {
             handleNotification();
           });
       } else {
-        const newPerson = {
-          name: newName,
-          number: newNumber,
-          id: newName,
-        };
         handleReset();
       }
     }
+    if (!existingPerson) {
+      const newPerson = {
+        name: newName,
+        number: newNumber,
+        id: newName,
+      };
 
-    personsService
-      .create(newPerson)
-      .then((response) => {
-        setPersons(persons.concat(response));
-        handleReset();
-        setMessage(`${response.name}'s number has been added`);
-        handleNotification();
-      })
-      .catch((error) => {
-        console.log("Error creating person entry:", error);
-        handleReset();
-        setErrMessage("Check the number format and name are correct ");
-        handleNotification();
-      });
+      personsService
+        .create(newPerson)
+        .then((response) => {
+          setPersons(persons.concat(response));
+          handleReset();
+          setMessage(`${response.name}'s number has been added`);
+          handleNotification();
+        })
+        .catch((error) => {
+          console.log("Error creating person entry:", error);
+          handleReset();
+          setErrMessage("Check the number format and name are correct ");
+          handleNotification();
+        });
+    }
   };
 
   const filteredPersons = persons.filter((person) =>
