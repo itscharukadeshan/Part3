@@ -13,7 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [message, setMessage] = useState("");
-  const [errMessage, setErrMassage] = useState("");
+  const [errMessage, setErrMessage] = useState("");
 
   useEffect(() => {
     personsService
@@ -54,8 +54,8 @@ const App = () => {
   const handleNotification = () => {
     setTimeout(() => {
       setMessage("");
-      setErrMassage("");
-    }, 3000);
+      setErrMessage("");
+    }, 4000);
   };
 
   const handleReset = () => {
@@ -70,31 +70,53 @@ const App = () => {
     );
 
     if (existingPerson) {
-      alert(`${newName} is already added to the phone book`);
-      handleReset();
+      if (
+        window.confirm(
+          `${newName} is already added to the phone book. Do you want to update the number?`
+        )
+      ) {
+        const updatedPerson = { ...existingPerson, number: newNumber };
 
-      return;
+        personsService
+          .update(existingPerson.id, updatedPerson)
+          .then((response) => {
+            setPersons(
+              persons.map((person) =>
+                person.id === existingPerson.id ? response : person
+              )
+            );
+            handleReset();
+            setMessage(`${response.name}'s number has been updated`);
+            handleNotification();
+          })
+          .catch((error) => {
+            console.log("Error updating person:", error);
+            handleReset();
+            setErrMessage("Failed to update the number check");
+            handleNotification();
+          });
+      } else {
+        const newPerson = {
+          name: newName,
+          number: newNumber,
+          id: newName,
+        };
+        handleReset();
+      }
     }
-
-    const newPerson = {
-      name: newName,
-      number: newNumber,
-      id: newName,
-    };
 
     personsService
       .create(newPerson)
       .then((response) => {
         setPersons(persons.concat(response));
         handleReset();
-        setMessage(response.name);
+        setMessage(`${response.name}'s number has been added`);
         handleNotification();
       })
       .catch((error) => {
         console.log("Error creating person entry:", error);
         handleReset();
-        setErrMassage("Check the number and name are correct ");
-        ErrNotification(errMessage);
+        setErrMessage("Check the number format and name are correct ");
         handleNotification();
       });
   };
@@ -107,6 +129,7 @@ const App = () => {
     <div className='px-12 py-5 w-full bg-slate-50'>
       <h2 className='text-5xl pt-4'>Phone book</h2>
       <Notification message={message} />
+      <ErrNotification errMessage={errMessage} />
 
       <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
 

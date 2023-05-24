@@ -2,8 +2,8 @@
 
 import React, { useEffect } from "react";
 
-function ErrNotification({ message }) {
-  if (!message) {
+function ErrNotification({ errMessage }) {
+  if (!errMessage) {
     {
       return null;
     }
@@ -11,7 +11,7 @@ function ErrNotification({ message }) {
   {
     return (
       <div className='text-orange-700 font-serif font-bold text-3xl mt-3 bg-slate-400 p-8 border-solid border-4 border-orange-700 rounded-md'>
-        {message}
+        {errMessage}
       </div>
     );
   }

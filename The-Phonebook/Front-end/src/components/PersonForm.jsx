@@ -26,6 +26,7 @@ const PersonForm = ({
           className=' pl-2 py-1 border-gray-500 border-2 rounded-sm w-1/4 '
           value={newNumber}
           placeholder='e.g. 123-4567890'
+          pattern='\d{3}-\d{7}'
           onChange={handleNumberChange}
         />
       </div>
