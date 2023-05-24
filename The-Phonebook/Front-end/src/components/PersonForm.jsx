@@ -18,6 +18,7 @@ const PersonForm = ({
           value={newName}
           placeholder='Enter a name'
           onChange={handleNameChange}
+          required
         />
       </div>
       <div className=' flex flex-col gap-2'>
@@ -27,7 +28,9 @@ const PersonForm = ({
           value={newNumber}
           placeholder='e.g. 123-4567890'
           pattern='\d{3}-\d{7}'
+          title='Ensure number has minimum 8 digits and (-) after region code.'
           onChange={handleNumberChange}
+          required
         />
       </div>
       <div>
