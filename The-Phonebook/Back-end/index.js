@@ -48,9 +48,7 @@ app.get("/api/persons/:id", (request, response, next) => {
       if (person) {
         response.json(person);
       } else {
-        response
-          .status(404)
-          .send({ error: "Not found ! Check the Id is correct" });
+        response.status(404).send({ error: "Not found ! Check the Id again" });
       }
     })
     .catch((error) => next(error));
